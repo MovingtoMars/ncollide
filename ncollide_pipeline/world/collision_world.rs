@@ -108,6 +108,16 @@ impl<P: Point, M: Isometry<P>, T> CollisionWorld<P, M, T> {
         }
     }
 
+    pub fn set_collision_groups(&mut self, uid: usize, collision_groups: CollisionGroups) {
+        if let Some(co) = self.objects.get_mut(uid) {
+            co.collision_groups = collision_groups;
+        }
+        else {
+            panic!("Attempting to set the position of an unknown object. \
+                    Did you forgot to call `.update()` after `.deferred_add()`-ing your objects?");
+        }
+    }
+
     /// Adds a filter that tells if a potential collision pair should be ignored or not.
     ///
     /// The proximity filter returns `false` for a given pair of collision objects if they should
